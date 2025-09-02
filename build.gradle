@@ -1,0 +1,64 @@
+plugins {
+    id 'java'
+    id 'org.springframework.boot' version '3.2.1' apply false
+    id 'io.spring.dependency-management' version '1.1.4' apply false
+    id 'com.google.cloud.tools.jib' version '3.4.0' apply false
+    id 'org.sonarqube' version '4.4.1.3373'
+    id 'com.gorylenko.gradle-git-properties' version '2.4.1' apply false
+}
+
+allprojects {
+    group = 'com.ccpay'
+    version = '1.0.0-SNAPSHOT'
+    
+    repositories {
+        mavenCentral()
+        maven { url 'https://repo.spring.io/milestone' }
+    }
+}
+
+subprojects {
+    apply plugin: 'java'
+    apply plugin: 'io.spring.dependency-management'
+    
+    java {
+        sourceCompatibility = '17'
+        targetCompatibility = '17'
+    }
+    
+    tasks.withType(Test) {
+        useJUnitPlatform()
+    }
+    
+    tasks.withType(JavaCompile) {
+        options.encoding = 'UTF-8'
+    }
+}
+
+task runAllTests {
+    dependsOn subprojects.collect { it.tasks.named('test') }
+}
+
+task buildAllImages {
+    dependsOn subprojects.findAll { 
+        it.name.endsWith('-service') || it.name == 'api-gateway' 
+    }.collect { 
+        it.tasks.findByName('jibDockerBuild') ?: it.tasks.findByName('build')
+    }
+}
+
+task generateReport {
+    doLast {
+        println "Generating project report..."
+        println "Project: ${project.name}"
+        println "Version: ${project.version}"
+        subprojects.each { subproject ->
+            println "  - ${subproject.name}: ${subproject.version}"
+        }
+    }
+}
+
+wrapper {
+    gradleVersion = '8.5'
+    distributionType = Wrapper.DistributionType.ALL
+}

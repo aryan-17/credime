@@ -1,0 +1,82 @@
+plugins {
+    id 'java'
+    id 'org.springframework.boot'
+    id 'io.spring.dependency-management'
+}
+
+apply from: "$rootDir/buildSrc/src/main/groovy/dependencies.gradle"
+
+dependencyManagement {
+    imports {
+        mavenBom "org.springframework.boot:spring-boot-dependencies:${versions.springBoot}"
+    }
+}
+
+// Add Lombok configuration
+configurations {
+    compileOnly {
+        extendsFrom annotationProcessor
+    }
+}
+
+dependencies {
+    implementation project(':common')
+    
+    // Spring Boot starters
+    implementation deps.springBootWeb
+    implementation deps.springBootValidation
+    implementation deps.springBootActuator
+    
+    // Spring Security
+    implementation deps.springBootSecurity
+    implementation deps.springOAuth2ResourceServer
+    
+    // JWT
+    implementation deps.jjwtApi
+    runtimeOnly deps.jjwtImpl
+    runtimeOnly deps.jjwtJackson
+    
+    // Redis for session management
+    implementation deps.springBootRedis
+    implementation deps.springSessionRedis
+    
+    // Database
+    implementation deps.springBootData
+    implementation deps.flyway
+    runtimeOnly deps.postgresql
+    
+    // TOTP for MFA
+    implementation deps.googleAuth
+    
+    // Email
+    implementation deps.springBootMail
+    implementation deps.springBootThymeleaf
+    
+    // Rate Limiting
+    implementation deps.bucket4j
+    
+    // Testing
+    testImplementation deps.springSecurityTest
+    testImplementation deps.testcontainersPostgresql
+    testImplementation deps.testcontainers
+    
+    // Lombok
+    compileOnly deps.lombok
+    annotationProcessor deps.lombok
+    
+    // MapStruct
+    implementation deps.mapstruct
+    annotationProcessor deps.mapstructProcessor
+    
+    // API Documentation
+    implementation deps.springdoc
+}
+
+tasks.withType(JavaCompile) {
+    options.compilerArgs << "-Xlint:deprecation" << "-Xlint:unchecked"
+}
+
+bootJar {
+    enabled = true
+    mainClass = 'com.ccpay.auth.AuthServiceApplication'
+}

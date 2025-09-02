@@ -1,0 +1,95 @@
+ext {
+    versions = [
+        springBoot: '3.2.1',
+        springCloud: '2023.0.0',
+        lombok: '1.18.30',
+        mapstruct: '1.5.5.Final',
+        jjwt: '0.12.3',
+        testcontainers: '1.19.3',
+        postgresql: '42.7.1',
+        flyway: '10.4.1',
+        redis: '3.1.6',
+        kafka: '3.6.1',
+        micrometerTracing: '1.2.1',
+        resilience4j: '2.1.0',
+        springdoc: '2.3.0',
+        awsSdk: '2.22.0',
+        bucket4j: '7.6.0',
+        googleAuth: '1.5.0',
+        commonsLang3: '3.14.0',
+        commonsCodec: '1.16.0',
+        shedlock: '5.10.0'
+    ]
+    
+    deps = [
+        // Spring Boot Starters
+        springBootWeb: "org.springframework.boot:spring-boot-starter-web",
+        springBootSecurity: "org.springframework.boot:spring-boot-starter-security",
+        springBootData: "org.springframework.boot:spring-boot-starter-data-jpa",
+        springBootRedis: "org.springframework.boot:spring-boot-starter-data-redis",
+        springBootValidation: "org.springframework.boot:spring-boot-starter-validation",
+        springBootActuator: "org.springframework.boot:spring-boot-starter-actuator",
+        springBootMail: "org.springframework.boot:spring-boot-starter-mail",
+        springBootThymeleaf: "org.springframework.boot:spring-boot-starter-thymeleaf",
+        springBootTest: "org.springframework.boot:spring-boot-starter-test",
+        
+        // Spring Cloud
+        springCloudGateway: "org.springframework.cloud:spring-cloud-starter-gateway",
+        springCloudCircuitBreaker: "org.springframework.cloud:spring-cloud-starter-circuitbreaker-reactor-resilience4j",
+        
+        // Spring Session & OAuth
+        springSessionRedis: "org.springframework.session:spring-session-data-redis",
+        springOAuth2ResourceServer: "org.springframework.boot:spring-boot-starter-oauth2-resource-server",
+        
+        // Spring Kafka
+        springKafka: "org.springframework.kafka:spring-kafka",
+        
+        // Database
+        postgresql: "org.postgresql:postgresql:${versions.postgresql}",
+        flyway: "org.flywaydb:flyway-core:${versions.flyway}",
+        
+        // Redis
+        redisReactive: "org.springframework.boot:spring-boot-starter-data-redis-reactive",
+        
+        // JWT
+        jjwtApi: "io.jsonwebtoken:jjwt-api:${versions.jjwt}",
+        jjwtImpl: "io.jsonwebtoken:jjwt-impl:${versions.jjwt}",
+        jjwtJackson: "io.jsonwebtoken:jjwt-jackson:${versions.jjwt}",
+        
+        // Lombok & MapStruct
+        lombok: "org.projectlombok:lombok:${versions.lombok}",
+        mapstruct: "org.mapstruct:mapstruct:${versions.mapstruct}",
+        mapstructProcessor: "org.mapstruct:mapstruct-processor:${versions.mapstruct}",
+        
+        // Testing
+        testcontainers: "org.testcontainers:testcontainers:${versions.testcontainers}",
+        testcontainersJunit: "org.testcontainers:junit-jupiter:${versions.testcontainers}",
+        testcontainersPostgresql: "org.testcontainers:postgresql:${versions.testcontainers}",
+        springSecurityTest: "org.springframework.security:spring-security-test",
+        
+        // Monitoring
+        micrometerPrometheus: "io.micrometer:micrometer-registry-prometheus",
+        micrometerTracing: "io.micrometer:micrometer-tracing-bridge-brave",
+        zipkinReporter: "io.zipkin.reporter2:zipkin-reporter-brave",
+        
+        // Documentation
+        springdoc: "org.springdoc:springdoc-openapi-starter-webmvc-ui:${versions.springdoc}",
+        
+        // Utilities
+        jacksonJsr310: "com.fasterxml.jackson.datatype:jackson-datatype-jsr310",
+        commonsLang3: "org.apache.commons:commons-lang3:${versions.commonsLang3}",
+        commonsCodec: "commons-codec:commons-codec:${versions.commonsCodec}",
+        
+        // Security & Auth
+        googleAuth: "com.warrenstrange:googleauth:${versions.googleAuth}",
+        bucket4j: "com.github.vladimir-bukhtoyarov:bucket4j-core:${versions.bucket4j}",
+        
+        // AWS SDK
+        awsBom: "software.amazon.awssdk:bom:${versions.awsSdk}",
+        awsS3: "software.amazon.awssdk:s3",
+        
+        // Distributed Locking
+        shedlockSpring: "net.javacrumbs.shedlock:shedlock-spring:${versions.shedlock}",
+        shedlockJdbc: "net.javacrumbs.shedlock:shedlock-provider-jdbc-template:${versions.shedlock}"
+    ]
+}

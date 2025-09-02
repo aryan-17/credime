@@ -1,0 +1,54 @@
+plugins {
+    id 'java'
+    id 'org.springframework.boot'
+    id 'io.spring.dependency-management'
+    id 'com.google.cloud.tools.jib'
+    id 'jacoco'
+}
+
+apply from: "$rootDir/buildSrc/src/main/groovy/dependencies.gradle"
+
+dependencies {
+    implementation deps.springBootActuator
+    implementation deps.micrometerPrometheus
+    compileOnly deps.lombok
+    annotationProcessor deps.lombok
+    
+    testImplementation deps.springBootTest
+    testImplementation deps.testcontainersJunit
+    testImplementation deps.testcontainersPostgresql
+}
+
+test {
+    useJUnitPlatform()
+    finalizedBy jacocoTestReport
+}
+
+jacocoTestReport {
+    reports {
+        xml.required = true
+        html.required = true
+    }
+}
+
+springBoot {
+    buildInfo()
+}
+
+jib {
+    from {
+        image = 'eclipse-temurin:17-jre-alpine'
+    }
+    to {
+        image = "${project.group}/${project.name}"
+        tags = ['latest', project.version]
+    }
+    container {
+        jvmFlags = ['-Xms256m', '-Xmx512m']
+        mainClass = "com.ccpay.${project.name.replace('-service', '').replace('-', '')}.Application"
+        ports = ['8080']
+        environment = [
+            'SPRING_PROFILES_ACTIVE': 'docker'
+        ]
+    }
+}

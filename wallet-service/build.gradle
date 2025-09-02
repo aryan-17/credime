@@ -1,0 +1,9 @@
+plugins {
+    id 'java'
+}
+
+apply from: "$rootDir/buildSrc/src/main/groovy/dependencies.gradle"
+
+dependencies {
+    implementation project(':common')
+}

@@ -1,0 +1,40 @@
+plugins {
+    id 'java-library'
+    id 'io.spring.dependency-management'
+}
+
+apply from: "$rootDir/buildSrc/src/main/groovy/dependencies.gradle"
+
+dependencyManagement {
+    imports {
+        mavenBom "org.springframework.boot:spring-boot-dependencies:${versions.springBoot}"
+    }
+}
+
+jar {
+    enabled = true
+}
+
+dependencies {
+    implementation deps.springBootWeb
+    implementation deps.springBootValidation
+    implementation deps.springBootData
+    implementation deps.springBootRedis
+    implementation deps.springBootSecurity
+    implementation deps.mapstruct
+    annotationProcessor deps.mapstructProcessor
+    
+    // Jackson for JSON processing
+    implementation deps.jacksonJsr310
+    
+    // Apache Commons
+    implementation deps.commonsLang3
+    implementation deps.commonsCodec
+    
+    // Lombok
+    compileOnly deps.lombok
+    annotationProcessor deps.lombok
+    
+    // Testing
+    testImplementation deps.springBootTest
+}
