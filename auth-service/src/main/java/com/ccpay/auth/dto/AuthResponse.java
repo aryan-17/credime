@@ -33,5 +33,6 @@ public class AuthResponse {
         private boolean emailVerified;
         private boolean mfaEnabled;
         private String kycStatus;
+        private String profileImageUrl;
     }
 }

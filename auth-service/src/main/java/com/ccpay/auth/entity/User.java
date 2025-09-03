@@ -28,8 +28,15 @@ public class User extends BaseEntity {
     @Column(unique = true, nullable = false)
     private String email;
     
-    @Column(name = "password_hash", nullable = false)
-    private String passwordHash;
+    @Enumerated(EnumType.STRING)
+    @Column(name = "oauth_provider", nullable = false)
+    private OAuth2Provider oauthProvider;
+    
+    @Column(name = "oauth_id", nullable = false)
+    private String oauthId;
+    
+    @Column(name = "profile_image_url")
+    private String profileImageUrl;
     
     @Column(name = "first_name")
     private String firstName;
@@ -59,13 +66,6 @@ public class User extends BaseEntity {
     @Column(name = "last_login_at")
     private LocalDateTime lastLoginAt;
     
-    @Column(name = "failed_login_attempts")
-    @Builder.Default
-    private Integer failedLoginAttempts = 0;
-    
-    @Column(name = "locked_until")
-    private LocalDateTime lockedUntil;
-    
     @Column(name = "email_verified")
     @Builder.Default
     private boolean emailVerified = false;
@@ -86,27 +86,7 @@ public class User extends BaseEntity {
     @Builder.Default
     private Set<Role> roles = new HashSet<>();
     
-    public boolean isAccountLocked() {
-        return lockedUntil != null && lockedUntil.isAfter(LocalDateTime.now());
-    }
-    
     public boolean isAccountActive() {
-        return status == UserStatus.ACTIVE && !isAccountLocked();
-    }
-    
-    public void incrementFailedLoginAttempts() {
-        if (failedLoginAttempts == null) {
-            failedLoginAttempts = 0;
-        }
-        failedLoginAttempts++;
-    }
-    
-    public void resetFailedLoginAttempts() {
-        failedLoginAttempts = 0;
-        lockedUntil = null;
-    }
-    
-    public void lockAccount(long minutes) {
-        lockedUntil = LocalDateTime.now().plusMinutes(minutes);
+        return status == UserStatus.ACTIVE;
     }
 }

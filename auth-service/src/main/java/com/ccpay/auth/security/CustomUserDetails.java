@@ -26,7 +26,6 @@ public class CustomUserDetails implements UserDetails {
     
     private UUID userId;
     private String email;
-    private String password;
     private String firstName;
     private String lastName;
     private boolean emailVerified;
@@ -50,7 +49,6 @@ public class CustomUserDetails implements UserDetails {
         return CustomUserDetails.builder()
                 .userId(user.getUserId())
                 .email(user.getEmail())
-                .password(user.getPasswordHash())
                 .firstName(user.getFirstName())
                 .lastName(user.getLastName())
                 .emailVerified(user.isEmailVerified())
@@ -64,10 +62,12 @@ public class CustomUserDetails implements UserDetails {
     public Collection<? extends GrantedAuthority> getAuthorities() {
         return authorities;
     }
-    
+
+
     @Override
     public String getPassword() {
-        return password;
+        // OAuth2-only authentication, no password needed
+        return null;
     }
     
     @Override

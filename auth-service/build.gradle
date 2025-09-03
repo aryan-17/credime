@@ -30,6 +30,8 @@ dependencies {
     // Spring Security
     implementation deps.springBootSecurity
     implementation deps.springOAuth2ResourceServer
+    implementation deps.springOAuth2Client
+    implementation deps.springOAuth2Jose
     
     // JWT
     implementation deps.jjwtApi

@@ -40,6 +40,8 @@ ext {
         // Spring Session & OAuth
         springSessionRedis: "org.springframework.session:spring-session-data-redis",
         springOAuth2ResourceServer: "org.springframework.boot:spring-boot-starter-oauth2-resource-server",
+        springOAuth2Client: "org.springframework.boot:spring-boot-starter-oauth2-client",
+        springOAuth2Jose: "org.springframework.security:spring-security-oauth2-jose",
         
         // Spring Kafka
         springKafka: "org.springframework.kafka:spring-kafka",
